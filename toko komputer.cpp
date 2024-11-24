@@ -25,6 +25,56 @@ class Stack {
         int top;
 };
 
+class Login{
+	public:
+		void awal();
+		void belumPunyaAkun();
+		void punyaAkun();
+		void adminLogin();
+		void loginPembeli();
+		
+	private:
+		string nama;
+		string noTelp;
+		string alamat;
+		string email;
+		string idPelanggan;
+		string idAdmin;
+		string pwAdmin;
+		string pwPelanggan;
+		string IdPelanggan;
+		string PwPelanggan;
+		char kelamin;
+		char pilDaftar;
+		int pilLog;
+		int pilAkun;
+		
+};
+
+class MenuAwal{
+	public:
+		void tampilAwal();
+		void bagianKomputer();
+		void shortCpuTermahal();
+		void cariCpu();
+		void tampilCpu();
+		
+	private:
+		string namaCpu;
+		int pilMenu;
+		int pilBagian;	
+		char barangPilih;
+		Cpu listCpu[MAX] = {
+    	{"Intel Core i7-12700", 239000},
+    	{"Intel Core i5 12400F", 279000},
+    	{"Intel Core i9-10900K", 359000},
+    	{"AMD Ryzen 5 3400G", 439000},
+    	{"Intel Core i9 9900KF", 569000},
+    	{"AMD Ryzen 9 3900X", 419000},
+		{"Intel Core i7-11700", 329000},
+	};
+};
+
 bool Stack::isFull(){
 	return top == MAX;
 }
@@ -59,51 +109,6 @@ void Stack::tampilCpu(){
         }
 }
 
-class Login{
-	public:
-		void awal();
-		void belumPunyaAkun();
-		void punyaAkun();
-		void adminLogin();
-		void loginPembeli();
-		
-	private:
-		string nama;
-		string noTelp;
-		string alamat;
-		string email;
-		string idPelanggan;
-		string idAdmin;
-		string pwAdmin;
-		string pwPelanggan;
-		string IdPelanggan;
-		string PwPelanggan;
-		char kelamin;
-		char pilDaftar;
-		int pilLog;
-		int pilAkun;
-		
-};
-
-class MenuAwal{
-	public:
-		void tampilAwal();
-		void bagianKomputer();
-		
-		void cariCpu();
-		
-	private:
-		string namaCpu;
-		int pilMenu;
-		int pilBagian;	
-		char barangPilih;
-			Cpu listCpu[MAX] = {
-			{"Intel Core i7-12700", 239000},
-			{"Intel Core i5 12400F", 279000},
-			{"Intel Core i9-10900K", 359000},
-		};
-};
-
 void Login::awal(){
 	MenuAwal menuAwal;
 	
@@ -133,7 +138,7 @@ void Login::awal(){
 }
 
 void Login::adminLogin(){
-	
+
 }
 
 void Login::loginPembeli(){
@@ -199,6 +204,39 @@ void Login::punyaAkun(){
 	}
 }
 
+bool bandingCpuTermahal(const Cpu &a,const Cpu &b) {
+  return a.hargaBarang > b.hargaBarang;
+}
+
+void MenuAwal::shortCpuTermahal(){
+int jumlahCpu = 7; 
+for (int i = 0; i < jumlahCpu - 1; i++) {
+    for (int j = 0; j < jumlahCpu - i - 1; j++) {
+        if (listCpu[j].hargaBarang < listCpu[j + 1].hargaBarang) { 
+            Cpu temp = listCpu[j];
+            listCpu[j] = listCpu[j + 1];
+            listCpu[j + 1] = temp;
+        }
+    }
+}
+
+cout << "Daftar CPU termahal: " << endl;
+for (int i = 0; i < jumlahCpu; i++) {
+    cout << "Nama CPU : " << listCpu[i].namaCpu << endl;
+    cout << "Harga    : " << listCpu[i].hargaBarang << endl;
+    cout << endl;
+	}
+}
+
+void MenuAwal::tampilCpu(){
+	cout << "Daftar CPU: \n";
+	for(int i = 0; i < 7; i++){
+		cout << i+1 << ". Nama CPU: " << listCpu[i].namaCpu << " Rp. " << listCpu[i].hargaBarang;
+		cout << endl;
+		cout << endl;
+	}
+}
+
 void MenuAwal::cariCpu(){
     cout << "Masukkan nama CPU yang dicari: ";
     cin.ignore();
@@ -219,8 +257,9 @@ void MenuAwal::cariCpu(){
         cout << "CPU tidak ditemukan!" << endl;
     }
 }
-
+	
 void MenuAwal::bagianKomputer(){
+	do{
 	cout << "Bagian komputer: \n";
 	cout << "1. CPU \n";
 	cout << "2. VGA \n";
@@ -231,6 +270,7 @@ void MenuAwal::bagianKomputer(){
 	cout << "7. Cooler \n";
 	cout << "8. VGA \n";
 	cout << "9. ROM \n";
+	cout << "10. kembali \n";
 	cout << "Masukkan pilihan: ";
 	cin >> pilBagian;
 	
@@ -240,11 +280,15 @@ void MenuAwal::bagianKomputer(){
 			cin >> barangPilih;
 			if(barangPilih == 'y' || barangPilih == 'Y'){
 				cariCpu();
-			} else if(barangPilih == 'l' || barangPilih == 'L'){
-				
+			} else if(barangPilih == 'n' || barangPilih == 'N'){
+				cout << endl;
+				tampilCpu();
+			} else{
+				cout << "pilihan tidak tersedia" << endl;
 			}
 		break;	
-	}
+		}	
+	}while(pilBagian != 10);
 }
 
 void MenuAwal::tampilAwal(){
@@ -269,4 +313,3 @@ int main(){
 	
 	log.awal();
 }
-
