@@ -15,7 +15,7 @@ class Stack {
 		Stack() : top(0) {}
 		bool isFull();
 		bool isEmpty();
-		void tambahCpu();
+		void tambahCpu(string namaCpu, long int hargaBarang);
 		void hapusCpu();
 		void tampilCpu();
 		
@@ -72,6 +72,7 @@ class MenuAwal{
 		int tambahBagianKomputer;
 		char barangPilih;
 		char pilihSortingCpu;
+		long int hargaBarang;
 		Cpu listCpu[MAX] = {
     	{"Intel Core i7-12700", 239000},
     	{"Intel Core i5 12400F", 279000},
@@ -91,10 +92,7 @@ bool Stack::isEmpty(){
 	return top == 0;
 }
 
-void Stack::tambahCpu(){
-	string namaCpu;
-	long int hargaBarang;
-	
+void Stack::tambahCpu(string namaCpu, long int hargaBarang){
     if (!isFull()) {
         stack[top].namaCpu = namaCpu;
         stack[top].hargaBarang = hargaBarang;
@@ -252,6 +250,7 @@ void MenuAwal::tampilAdmin() {
 				cout << "2. Aksesoris \n";
 				cout << "Masukkan pilihan: ";
 				cin >> pilTambahBarang;
+				cout << endl;
 					if (pilTambahBarang == 1) {
 							cout << "Bagian komputer: \n";
 							cout << "1. CPU \n";
@@ -267,9 +266,13 @@ void MenuAwal::tampilAdmin() {
 							cout << "Masukkan pilihan: ";
 							cin >> tambahBagianKomputer;
 							cout << endl;
+							cin.ignore();
 								if(tambahBagianKomputer == 1) {
-									stack.tambahCpu();
-//									stack.tampilCpu();
+									cout << "Masukkan nama CPU: "; getline(cin,namaCpu);
+									cout << "Masukkan harga CPU: "; cin >> hargaBarang;
+									cout << endl;
+									stack.tambahCpu(namaCpu, hargaBarang);
+									stack.tampilCpu();
 								}
 						}
 		}
