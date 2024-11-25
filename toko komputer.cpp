@@ -15,7 +15,7 @@ class Stack {
 		Stack() : top(0) {}
 		bool isFull();
 		bool isEmpty();
-		void tambahCpu(string namaCpu, long int hargaBarang);
+		void tambahCpu();
 		void hapusCpu();
 		void tampilCpu();
 		
@@ -44,8 +44,11 @@ class Login{
 		string pwPelanggan;
 		string IdPelanggan;
 		string PwPelanggan;
+		string IdAdmin;
+		string PwAdmin;
 		char kelamin;
 		char pilDaftar;
+		char pilAdmin;
 		int pilLog;
 		int pilAkun;
 		
@@ -54,6 +57,7 @@ class Login{
 class MenuAwal{
 	public:
 		void tampilAwal();
+		void tampilAdmin();
 		void bagianKomputer();
 		void shortCpuTermahal();
 		void cariCpu();
@@ -63,7 +67,11 @@ class MenuAwal{
 		string namaCpu;
 		int pilMenu;
 		int pilBagian;	
+		int pilMenuAdmin;
+		int pilTambahBarang;
+		int tambahBagianKomputer;
 		char barangPilih;
+		char pilihSortingCpu;
 		Cpu listCpu[MAX] = {
     	{"Intel Core i7-12700", 239000},
     	{"Intel Core i5 12400F", 279000},
@@ -83,7 +91,10 @@ bool Stack::isEmpty(){
 	return top == 0;
 }
 
-void Stack::tambahCpu(string namaCpu, long int hargaBarang){
+void Stack::tambahCpu(){
+	string namaCpu;
+	long int hargaBarang;
+	
     if (!isFull()) {
         stack[top].namaCpu = namaCpu;
         stack[top].hargaBarang = hargaBarang;
@@ -138,7 +149,27 @@ void Login::awal(){
 }
 
 void Login::adminLogin(){
-
+	MenuAwal menuAwal;
+	cout << "Selamat datang di menu admin\n";
+	cout << "Masukkan username admin : "; cin >> IdAdmin;
+	cout << "Masukkan password admin : "; cin >> PwAdmin;
+		if(IdAdmin == idAdmin && PwAdmin == pwAdmin){
+			cout << "Selamat username dan password anda benar! \n";
+			cout << endl;
+			menuAwal.tampilAdmin();
+		} else {
+			cout << "username atau password anda salah \n";
+			cout << "Apakah ingin kembali ke menu awal ? (y/n) : ";
+			cin >> pilAdmin;
+			cout << endl;
+				if(pilAdmin == 'y' || pilAdmin == 'Y'){
+					awal();
+				} else if(pilAdmin == 'n' || pilAdmin == 'N'){
+					adminLogin();
+				} else {
+					cout << "Pilihan tidak tersedia \n";
+				}
+		}
 }
 
 void Login::loginPembeli(){
@@ -181,7 +212,7 @@ void Login::punyaAkun(){
 	MenuAwal menuAwal;
 	cout << "Masukkan ID : "; cin >> IdPelanggan;
 	cout << "Masukkan password : "; cin >> PwPelanggan;
-	if (idPelanggan == IdPelanggan && pwPelanggan == PwPelanggan){
+	if (IdPelanggan == idPelanggan && PwPelanggan == pwPelanggan){
 		cout << "Selamat Id & Pw anda benar\n";
 		cout << endl;
 		menuAwal.tampilAwal();
@@ -202,6 +233,46 @@ void Login::punyaAkun(){
       cout << "Pilihan tidak tersedia" << endl;
     	}
 	}
+}
+
+void MenuAwal::tampilAdmin() {
+	Stack stack;
+	cout << "Selamat datang di menu admin ! \n";
+	cout << "1. tambah barang \n";
+	cout << "2. hapus barang \n";
+	cout << "3. \n";
+	cout << "Msukkan pilihan: ";
+	cin >> pilMenuAdmin;
+	cout << endl;
+	
+		switch(pilMenuAdmin){
+			case 1:
+				cout << "Tambah barang: \n";
+				cout << "1. Bagian komputer \n";
+				cout << "2. Aksesoris \n";
+				cout << "Masukkan pilihan: ";
+				cin >> pilTambahBarang;
+					if (pilTambahBarang == 1) {
+							cout << "Bagian komputer: \n";
+							cout << "1. CPU \n";
+							cout << "2. VGA \n";
+							cout << "3. PROSESOR \n";
+							cout << "4. PSU \n";
+							cout << "5. Motherboard \n";
+							cout << "6. RAM \n";
+							cout << "7. Cooler \n";
+							cout << "8. VGA \n";
+							cout << "9. ROM \n";
+							cout << "10. kembali \n";
+							cout << "Masukkan pilihan: ";
+							cin >> tambahBagianKomputer;
+							cout << endl;
+								if(tambahBagianKomputer == 1) {
+									stack.tambahCpu();
+//									stack.tampilCpu();
+								}
+						}
+		}
 }
 
 bool bandingCpuTermahal(const Cpu &a,const Cpu &b) {
@@ -283,6 +354,14 @@ void MenuAwal::bagianKomputer(){
 			} else if(barangPilih == 'n' || barangPilih == 'N'){
 				cout << endl;
 				tampilCpu();
+				cout << "Apakah ingin menampilkan dari harga termahal (y/n) ? : ";
+				cin >> pilihSortingCpu;
+				cout << endl;
+					if(pilihSortingCpu == 'y' || pilihSortingCpu == 'Y'){
+						shortCpuTermahal();
+					} else {
+						bagianKomputer();
+					}
 			} else{
 				cout << "pilihan tidak tersedia" << endl;
 			}
